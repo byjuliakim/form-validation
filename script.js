@@ -34,28 +34,38 @@ function getFormData() {
     //disable button to refrain from double submission
 	submitButton.disabled = true;
 
-	//check
     function postalFilter(postalCode) {
         if (!postalCode) {
             return null;
         }
         postalCode = postalCode.toString().trim();
 
-        var ca = new RegExp(/([A-Z]\d)([A-Z]\d){2}/i);
+        var ca = new RegExp(/^([A-Z]\d){3}$/i);
 
         if (ca.test(postalCode.toString().replace(/\W+/g, ''))) {
             return postalCode;
         }
         return null;
     }
+	
+    function nameValidation(name){
+        if (!name) {
+            return null;
+        }
 
+        var regex = new RegExp(/^[a-zA-Z\-'\s]+$/)
+        if (regex.test(name)){
+            return name
+        }
+        return null;
+    }
     var validate = 0;
     errorsBlock.innerHTML = '';
 
     if (postalCodeValue === '') {
-    	postalCode.focus();
-    	postalCodeLabel.className = 'error';
-    	errorsBlock.innerHTML = '<span>Please enter your postal code.</span>' + errorsBlock.innerHTML;
+        postalCode.focus();
+        postalCodeLabel.className = 'error';
+        errorsBlock.innerHTML = '<span>Please enter your postal code.</span>' + errorsBlock.innerHTML;
     }
     else if (postalFilter(postalCodeValue) === null) {
         postalCode.focus();
@@ -63,8 +73,9 @@ function getFormData() {
         errorsBlock.innerHTML = '<span>Please enter a valid Canadian postal code. (ex. M6K 1X8)</span>' + errorsBlock.innerHTML;
     }
     else {
-    	postalCodeLabel.classList.remove('error');
-    	validate++
+        postalCodeValue = postalCodeValue.replace(/\s/g,'');
+        postalCodeLabel.classList.remove('error');
+        validate++
     }
 
     if (phoneNumberValue === '') {
@@ -98,27 +109,39 @@ function getFormData() {
     	validate++
     }
 
-    // if (lastNameValue === '') {
-    //     lastName.focus();
-    //     lastNameLabel.className = 'error';
-    //     errorsBlock.innerHTML = '<span>is required.</span>' + errorsBlock.innerHTML;
-    // }
-    // else {
-    //	lastNameLabel.classList.remove('error');
-    //	validate++
-    // }
+    if (lastNameValue === '') {
+        // console.log('no last name')
+        lastName.focus();
+        lastNameLabel.className = 'error';
+        errorsBlock.innerHTML = '<span>Please enter your last name.</span>' + errorsBlock.innerHTML;
+    }
+    else if (nameValidation(lastNameValue) === null) {
+        // console.log('invalid last name')
+        lastName.focus();
+        lastNameLabel.className = 'error';
+        errorsBlock.innerHTML = '<span>Please enter a valid last name (alphabets only).</span>' + errorsBlock.innerHTML;
+    }
+    else {
+    	lastNameLabel.classList.remove('error');
+    	validate++
+    }
 
-    if (firstNameValue === '') {
+    if(firstNameValue === ''){
         firstName.focus();
         firstNameLabel.className = 'error';
         errorsBlock.innerHTML = '<span>Please enter your first name</span>' + errorsBlock.innerHTML;
+    }
+    else if (nameValidation(firstNameValue) === null) {
+        firstName.focus();
+        firstNameLabel.className = 'error';
+        errorsBlock.innerHTML = '<span>Please enter a valid first name (alphabets only).</span>' + errorsBlock.innerHTML;
     }
     else {
     	firstNameLabel.classList.remove('error');
     	validate++
     }
 
-    if (validate === 4) {
+    if (validate === 5) {
         // if successful, store form data in objects
         var data = {
             'First Name': firstNameValue,
@@ -137,7 +160,7 @@ function getFormData() {
         errorsBlock.classList.remove('show');
         thankYou.classList.add('show');
 
-        console.log(data);
+        console.table(data);
 
         //reset form to refrain from duplicate submission
         document.getElementById('sign-up').reset();
@@ -151,11 +174,14 @@ function getFormData() {
     	submitButton.disabled = false;
     	thankYou.classList.remove('show');
     	errorsBlock.classList.add('show');
+        //re-calculate section2 height (error msgs visible)
+        document.querySelector('.section2').style.height = document.querySelector('.section2 .container').offsetHeight + document.querySelector('footer').offsetHeight + 40 + 'px';
     }
 
 };
 
 // Styling stuff
+// fix header on scroll
 window.onscroll = function changeClass(e){
 	var header = document.getElementById('header');
 
@@ -165,6 +191,11 @@ window.onscroll = function changeClass(e){
 		header.classList.add('fixed');
 	}
 }
+
+// if height is too small, the footer overlaps with section2 
+// so set section2 height = section2 container height + footer height + section2 padding (40)
+document.querySelector('.section2').style.height = document.querySelector('.section2 .container').offsetHeight + document.querySelector('footer').offsetHeight + 40 + 'px';
+
 
 //Copyright 
 var d = new Date;

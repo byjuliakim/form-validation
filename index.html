@@ -29,15 +29,15 @@
 			<form id="sign-up" action="#">
 				<div class="input-box float-left">
 				    <label for="first-name">First Name<span class="purple">*</span></label>
-				    <input type="text" id="first-name" required/>
+				    <input type="text" id="first-name" pattern="^[a-zA-Z\-'\s]+$" required title="Input alphabets only"/>
 				</div>
 				<div class="input-box float-right">
-					<label for="last-name">Last Name</label>
-				    <input type="text" id="last-name"/>
+					<label for="last-name">Last Name<span class="purple">*</span></label>
+				    <input type="text" id="last-name" pattern="^[a-zA-Z\-'\s]+$" required title="Input alphabets only"/>
 				</div>
 				<div class="input-box float-left">
 				    <label for="email">Email Address<span class="purple">*</span></label>
-				    <input type="email" id="email" pattern="\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required title="Enter a valid email"/>
+				    <input type="email" id="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required title="Enter a valid email"/>
 				</div>
 				<div class="input-box float-right">
 				    <label for="phone-number">Phone Number<span class="purple">*</span></label>
@@ -45,7 +45,7 @@
 				</div>
 				<div class="input-box float-left">
 				    <label for="postal-code">Postal Code<span class="purple">*</span></label>
-				    <input type="text" id="postal-code"  pattern="([A-Za-z]\s*\d\s*){3}" required title="Enter a valid Canadian postal code (ex. M6K 1X8)"/>
+				    <input type="text" id="postal-code"  pattern="^([A-Za-z]\s*\d\s*){3}$" required title="Enter a valid Canadian postal code (ex. M6K 1X8)"/>
 				</div>
 				<div class="input-box">
 					<button id="submit-form">Sign Up</button>

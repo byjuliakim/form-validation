@@ -25,7 +25,7 @@ The `title` attribute is used to describe the pattern to help the user. In most 
 
 Because HTML validation is in place, my custom JavaScript(JS) error messages will not show up.
 To actually view JS version of form validation, please remove the `required` attribute in HTML. 
-I do realize that  HTML validation doesn't give the best looking error messages but this would be more optimal for accessibility reasons and in case the user disables JS. 
+I do realize that  HTML validation doesn't let the developer style the error messages but this would be more optimal for accessibility reasons and in case the user disables JS.
 
 ## Other Notes
 - Postal codes are being validated with Canadian postal code structure 
